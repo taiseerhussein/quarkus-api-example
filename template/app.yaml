@@ -132,7 +132,6 @@ metadata:
     app.kubernetes.io/component: postgresql
     app.kubernetes.io/instance: postgresql
 spec:
-  clusterIP: 172.30.137.216
   ipFamilies:
     - IPv4
   ports:
@@ -141,10 +140,28 @@ spec:
       port: 5432
       targetPort: 5432
   internalTrafficPolicy: Cluster
-  clusterIPs:
-    - 172.30.137.216
-  type: ClusterIP
+    type: ClusterIP
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
     deployment: postgresql
+
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: quarkus-api-example
+  namespace: zztaiseer
+  labels:
+    app.kubernetes.io/name: quarkus-api-example
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+spec:
+  host: quarkus-api-example-zztaiseer.apps.rosa-7czq9.aaux.p1.openshiftapps.com
+  to:
+    kind: Service
+    name: quarkus-api-example
+    weight: 100
+  port:
+    targetPort: http
+  wildcardPolicy: None
+
