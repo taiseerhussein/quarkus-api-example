@@ -146,7 +146,7 @@ spec:
       port: 5432
       targetPort: 5432
   internalTrafficPolicy: Cluster
-    type: ClusterIP
+  type: ClusterIP
   ipFamilyPolicy: SingleStack
   sessionAffinity: None
   selector:
